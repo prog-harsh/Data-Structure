@@ -6,7 +6,7 @@ class Node{
 }
 class LinkedList{
 	Node head = null;
-	public void insert(Node newnode){
+	public void insertAtEnd(Node newnode){
 		if(head == null){
 			head = newnode;
 		}
@@ -37,16 +37,33 @@ class LinkedList{
 		
 	}
 	public void deleteAtpos(int pos){
-		Node tnode = head;
-		Node prev = null;
-		while(pos>1){
-			prev = tnode;
-			tnode = tnode.next;
-			pos--;
+		if(pos == 1){
+			head = head.next;
 		}
-		Node n = tnode.next;
-		
-		prev.next = prev.next.next;
+		else{
+			Node tnode = head;
+			Node prev = null;
+			while(pos>1){
+				prev = tnode;
+				tnode = tnode.next;
+				pos--;
+			}
+			Node n = tnode.next;
+			
+			prev.next = prev.next.next;
+		}
+	}
+	public void reverse(){
+		Node current = head;
+		Node prev = null;
+		Node temp;
+		while(current != null){
+			temp = current.next;
+			current.next = prev;
+			prev = current;
+			current = temp;
+		}
+		head = prev;
 	}
 	public void display(){
 		Node tnode = head;
@@ -69,8 +86,9 @@ class LinkedListMain{
 			System.out.println("2. Delete from begining");
 			System.out.println("3. Delete from End");
 			System.out.println("4. Delete from specific position");
-			System.out.println("5. Display");
-			System.out.println("6.Exit");
+			System.out.println("5. Reverse");
+			System.out.println("6. Display");
+			System.out.println("7.Exit");
 			System.out.print("\nEnter your choice: ");
 			int ch = sc.nextInt();
 			
@@ -80,7 +98,7 @@ class LinkedListMain{
 					int d = sc.nextInt();
 					Node node = new Node();
 					node.data = d;
-					obj.insertAtBegin(node);
+					obj.insertAtEnd(node);
 					break;
 				case 2:
 					obj.deleteAtFront();
@@ -94,9 +112,14 @@ class LinkedListMain{
 					obj.deleteAtpos(pos);
 					break;
 				case 5:
-					obj.display();
+					obj.reverse();
+					System.out.print("Reversed...");
 					break;
 				case 6:
+					System.out.println("Linked List --->");
+					obj.display();
+					break;
+				case 7:
 					flag = false;
 					break;
 				default:
